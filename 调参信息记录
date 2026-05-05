@@ -20,3 +20,9 @@ learning_rate = 0.0001
 
 A榜分数:
 1.042
+
+提交版本 v2:
+代码：官方 baseline，未改代码
+dataset1：不变
+dataset2：epochs=10, early_stop=4, batch_size=200
+分数：待提交
