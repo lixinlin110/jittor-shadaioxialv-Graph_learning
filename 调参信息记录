@@ -1,0 +1,22 @@
+提交版本 v1：官方 baseline
+
+dataset1:
+epochs = 20
+early_stop = 5
+batch_size = 200
+
+dataset2:
+epochs = 5
+early_stop = 3
+batch_size = 200
+
+代码内参数:
+model = CRAFT
+num_neighbors = 30
+hidden_size = 64
+n_layers = 2
+n_heads = 2
+learning_rate = 0.0001
+
+A榜分数:
+1.042
