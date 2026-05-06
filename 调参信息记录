@@ -30,4 +30,4 @@ dataset2：epochs=20, early_stop=5, batch_size=200
 提交版本 v3:
 代码：官方baseline，未改代码
 dataset1与dataset2均：python main.py --epochs=20 --early_stop=5 --batch_size=200
-分数：
+分数：1.061
