@@ -25,4 +25,9 @@ A榜分数:
 代码：官方 baseline，未改代码
 dataset1：不变
 dataset2：epochs=20, early_stop=5, batch_size=200
-分数：待提交
+分数：1.057
+
+提交版本 v3:
+代码：官方baseline，未改代码
+dataset1与dataset2均：python main.py --epochs=20 --early_stop=5 --batch_size=200
+分数：
