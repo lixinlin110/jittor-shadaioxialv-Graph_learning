@@ -48,10 +48,10 @@ dataset2:不变
 代码：官方baseline，未改代码
 dataset1：python main.py --epochs 50 --early_stop 10 --batch_size 200
 dataset2:不变
-分数：1.070
+分数：1.070811
 
 提交版本 v7：
 代码：官方baseline，为改代码
 dataset1:python main.py --epochs 60 --early_stop 10 --batch_size 200
 dataset2:不变
-分数：
+分数：1.070847
