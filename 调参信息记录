@@ -43,3 +43,9 @@ dataset2：不变
 dataset1：python main.py --epochs=40 --early_stop=10 --batch_size=200
 dataset2:不变
 分数：1.068
+
+提交版本 v6：
+代码：官方baseline，未改代码
+dataset1：python main.py --epochs 50 --early_stop 10 --batch_size 200
+dataset2:不变
+分数：1.070
