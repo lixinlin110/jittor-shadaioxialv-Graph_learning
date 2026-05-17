@@ -1,0 +1,13 @@
+{
+  "dataset": "dataset1",
+  "model": "CRAFT",
+  "epochs": 70,
+  "early_stop": 12,
+  "batch_size": 200,
+  "num_neighbors": 30,
+  "hidden_size": 64,
+  "n_layers": 2,
+  "n_heads": 2,
+  "learning_rate": 0.0001,
+  "note": "Best recorded A-board score is about 1.0878 with the official baseline."
+}

@@ -1,0 +1,16 @@
+{
+  "num_neighbors": 30,
+  "time_decay_tau": 30.0,
+  "source_weight": 1.0,
+  "recent_weight": 1.5,
+  "global_weight": 0.2,
+  "repeat_weight": 0.4,
+  "ablation_plan": [
+    "official_craft",
+    "craft_time_window",
+    "craft_time_decay",
+    "craft_recent_neighbors",
+    "craft_time_aware_rerank",
+    "full_strategy"
+  ]
+}

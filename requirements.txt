@@ -1,0 +1,11 @@
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+scikit-learn>=1.3
+tqdm>=4.66
+matplotlib>=3.7
+jittor>=1.3.0
+
+# JittorGeometric currently recommends installation from source:
+# git clone https://github.com/AlgRUC/JittorGeometric.git
+# cd JittorGeometric && pip install .
