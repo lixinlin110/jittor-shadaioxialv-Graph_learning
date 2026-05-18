@@ -34,3 +34,9 @@ result.zip
 ```
 
 每个 csv 每行对应一个测试样本，包含 100 个候选节点概率，使用英文逗号分隔，保留 8 位小数。
+
+可使用以下命令打包：
+
+```bash
+python scripts/make_result_zip.py --input_dir results --output result.zip
+```
