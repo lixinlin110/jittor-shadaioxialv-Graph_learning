@@ -2,7 +2,7 @@
 
 本仓库面向第六届“计图”人工智能算法挑战赛赛道一：基于图学习的动态推荐任务。项目研究对象是时序图未来链接预测：给定历史交互三元组 `(source, destination, time)`，在测试阶段对每个 `source`、`time` 和 100 个候选 `destination` 进行概率打分与重排序，并生成 `dataset1_result.csv`、`dataset2_result.csv` 和 `result.zip`。
 
-本仓库不是多模态 RAG 项目；代码、文档和实验记录均围绕 Jittor/JittorGeometric、CRAFT baseline、动态图推荐、候选节点重排序和模型集成展开。
+本项目不是多模态 RAG 项目。仓库内容、代码和实验记录均围绕 Jittor/JittorGeometric、CRAFT baseline、动态图推荐、候选节点重排序和模型集成展开。
 
 ## 研究题目
 
@@ -28,41 +28,53 @@ source, time, candidate_1, candidate_2, ..., candidate_100
 
 ## 研究目标
 
-1. 跑通官方 JittorGeometric CRAFT baseline，并形成可复现的训练、推理和提交文件生成流程。
+1. 跑通官方 JittorGeometric CRAFT baseline，形成可复现的训练、推理和提交文件生成流程。
 2. 完成数据读取、字段检查、时间排序、时间泄漏检查和候选集格式检查。
 3. 实现历史频次、近期频次、时间衰减、重复交互等基础排序与重排序方法。
-4. 基于 CRAFT 输出结果进行多随机种子、多配置模型集成，提升候选节点排序质量。
-5. 建立 MRR、Recall@K、HitRate@K、NDCG@K 等指标的本地评测代码和实验记录模板。
-6. 形成可用于中期检查、最终报告和 PPT 汇报的实验材料。
+4. 将 BPR/矩阵分解、LightGCN 作为后续对照基线，比较传统协同过滤、静态图推荐和动态时序图模型。
+5. 基于 CRAFT 输出结果进行多随机种子、多配置模型集成，提升候选节点排序质量。
+6. 建立 MRR、Recall@K、HitRate@K、NDCG@K、AUC/AP、训练时间、推理时间等实验记录和评价流程。
+7. 形成可用于中期检查、最终报告和 PPT 汇报的实验材料。
 
 ## 技术路线
 
 ```text
 官方数据
 -> 字段检查、ID 检查、时间排序、时间泄漏检查
--> 官方 CRAFT baseline 训练
+-> 按时间划分训练/验证/测试流程
 -> 历史频次、近期频次、时间衰减等基础排序
+-> BPR/矩阵分解、LightGCN 等计划对照基线
+-> 官方 CRAFT/JittorGeometric baseline 训练
 -> 多随机种子 CRAFT 与候选重排序结果生成
 -> 固定权重融合与置信度自适应融合
--> MRR/Recall@K/NDCG@K/HitRate@K 评估
+-> MRR/Recall@K/NDCG@K/HitRate@K/AUC 评估
 -> dataset1_result.csv、dataset2_result.csv、result.zip
 ```
 
 ## 方法设计
 
-| 方法模块 | 作用 | 与课题关系 |
-| --- | --- | --- |
-| CRAFT baseline | 使用 source 历史邻居序列和候选 destination 进行匹配打分 | 官方基线与主要深度模型 |
-| 历史频次排序 | 统计 source-destination 历史交互次数 | 对照传统推荐与热门度方法 |
-| 近期频次排序 | 强化最近交互对预测时刻的影响 | 对应时序图的时间局部性 |
-| 时间衰减 | 距预测时间越近的历史交互权重越高 | 降低过早历史行为干扰 |
-| 多随机种子训练 | 训练多个 CRAFT 模型，获得互补预测 | 降低单次训练波动 |
-| 候选节点重排序 | 融合模型分数、频次、重复交互和时间信号 | 面向 MRR 的排序优化 |
-| 自适应融合 | 对不同样本按置信度调整融合比例 | 当前 A 榜最有效的提升策略 |
+| 方法模块 | 作用 | 与课题关系 | 当前状态 |
+| --- | --- | --- | --- |
+| History Frequency | 统计 source-destination 历史交互次数 | 传统频次基线 | 已完成 |
+| Recent Frequency | 强化最近窗口内的交互行为 | 近期行为建模 | 已完成 |
+| Time Decay | 距预测时间越近的历史交互权重越高 | 时间感知重排序 | 已完成 |
+| BPR/矩阵分解 | 基于隐式反馈的 pairwise 排序对照 | 传统推荐基线 | 计划补充 |
+| LightGCN | 静态图协同过滤推荐模型 | 图推荐对照 | 计划补充 |
+| CRAFT baseline | 使用 source 历史邻居序列和候选 destination 打分 | 官方主深度模型 | 已完成 |
+| Multi-seed CRAFT | 训练多个 CRAFT 模型获得互补预测 | 降低单次训练波动 | 已完成 |
+| Candidate Reranking | 融合模型分数、频次、时间和重复交互信号 | 面向 MRR 的排序优化 | 已完成 |
+| Adaptive Ensemble | 按样本置信度调整融合比例 | 当前最有效策略 | 已完成 |
 
 ## 当前阶段结果
 
-截至 2026-05-15 的实验记录：
+截至当前实验记录，最好 A 榜反馈为：
+
+```text
+round19_adapt_best215_seed7777_b02_e06_t005
+score = 1.1273681134893112
+```
+
+阶段结果汇总：
 
 | 阶段 | 方法 | A 榜反馈 |
 | --- | --- | --- |
@@ -78,26 +90,20 @@ A 榜分数只作为阶段性反馈。最终报告会同时记录本地验证指
 
 指标代码位于 `src/metrics.py` 和 `scripts/evaluate_predictions.py`。
 
-| 指标 | 含义 |
-| --- | --- |
-| MRR | 真实节点排名倒数的平均值，是比赛核心指标 |
-| Recall@K | 前 K 个候选中是否覆盖真实节点 |
-| HitRate@K | 前 K 个候选中命中真实节点的比例 |
-| NDCG@K | 考虑排名位置折损的排序质量指标 |
+| 指标 | 含义 | 用途 |
+| --- | --- | --- |
+| MRR | 真实节点排名倒数的平均值 | 比赛核心指标 |
+| Recall@K | 前 K 个候选中是否覆盖真实节点 | 排序召回分析 |
+| HitRate@K | 前 K 个候选中命中真实节点的比例 | 展示命中率 |
+| NDCG@K | 考虑排名位置折损的排序质量指标 | 排序质量分析 |
+| AUC/AP | 正负样本区分能力 | CRAFT 验证阶段辅助指标 |
+| 训练时间/推理时间 | 计算成本 | 工程可复现分析 |
+| 重复/新交互命中率 | 分析模型依赖历史重复连接的程度 | 错误分析和消融 |
 
 运行指标 demo：
 
 ```bash
 python scripts/evaluate_predictions.py --demo
-```
-
-评测验证集预测文件：
-
-```bash
-python scripts/evaluate_predictions.py \
-  --input results/dataset1/validation_predictions.csv \
-  --target_col destination \
-  --ranked_col ranked_destinations
 ```
 
 ## 仓库结构
@@ -125,7 +131,8 @@ python scripts/evaluate_predictions.py \
 │   ├── experiments.md
 │   ├── evaluation_plan.md
 │   ├── reproducibility.md
-│   └── midterm_report.md
+│   ├── midterm_report.md
+│   └── opening_report_alignment.md
 ├── results/
 │   ├── README.md
 │   └── experiment_summary.md
@@ -218,7 +225,9 @@ python scripts/make_result_zip.py --input_dir results --output result.zip
 
 ## 实验设计与可复现性
 
-详细实验计划见 [docs/evaluation_plan.md](docs/evaluation_plan.md)。复现说明见 [docs/reproducibility.md](docs/reproducibility.md)。每次有效实验需要保存：
+详细实验计划见 [docs/evaluation_plan.md](docs/evaluation_plan.md)。复现说明见 [docs/reproducibility.md](docs/reproducibility.md)。开题报告逐项对照见 [docs/opening_report_alignment.md](docs/opening_report_alignment.md)。
+
+每次有效实验需要保存：
 
 ```text
 config.json
@@ -238,7 +247,8 @@ model checkpoint 或模型参数
 | 检查项 | 仓库对应内容 |
 | --- | --- |
 | 研究题目和目标 | README 的研究题目、研究目标 |
-| 技术路线 | README 技术路线与 docs/midterm_report.md |
+| 开题报告一致性 | docs/opening_report_alignment.md |
+| 技术路线 | README 技术路线、docs/midterm_report.md |
 | 数据说明 | docs/data.md |
 | 实验设计 | docs/evaluation_plan.md |
 | 评价指标代码 | src/metrics.py、scripts/evaluate_predictions.py |
@@ -251,8 +261,8 @@ model checkpoint 或模型参数
 
 | 成员 | 主要工作 |
 | --- | --- |
-| 李鑫霖 | 环境搭建、JittorGeometric baseline、模型训练、重排序与融合实验、仓库维护 |
-| 涂东岳 | 文献阅读、研究现状整理、实验表格与 PPT 材料补充 |
+| 李鑫霖 | 环境搭建、JittorGeometric/CRAFT baseline、模型训练与推理、历史频次和近期频次基线、时间感知重排序、模型融合实验、仓库维护和 README/Demo |
+| 涂东岳 | 文献阅读、BPR/LightGCN/JODIE/TGAT/TGN 等研究现状整理、数据字段与时间顺序复核、候选集检查、指标表格、PPT 材料、可视化说明和参考文献整理 |
 | 协作任务 | 结果复核、报告撰写、答辩演示、参考文献整理 |
 
 ## 参考资料
