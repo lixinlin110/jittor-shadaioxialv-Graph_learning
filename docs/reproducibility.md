@@ -52,11 +52,11 @@ python main.py --dataset dataset1 --data_dir data --output_dir results
 python main.py --dataset dataset2 --data_dir data --output_dir results
 ```
 
-官方 CRAFT baseline 的命令接口与比赛代码保持一致：
+官方 CRAFT/JittorGeometric 训练入口：
 
 ```bash
-python main.py --dataset dataset1 --epochs 70 --early_stop 12 --batch_size 200
-python main.py --dataset dataset2 --epochs 20 --early_stop 5 --batch_size 200
+python craft_main.py --dataset dataset1 --epochs 70 --early_stop 12 --batch_size 200
+python craft_main.py --dataset dataset2 --epochs 20 --early_stop 5 --batch_size 200
 ```
 
 每次训练建议固定并记录：
@@ -75,6 +75,8 @@ learning_rate
 
 ## 4. 推理复现
 
+轻量 reranker 推理示例：
+
 ```bash
 python -m src.infer \
   --dataset dataset1 \
@@ -83,12 +85,24 @@ python -m src.infer \
   --output_file results/dataset1/submission.csv
 ```
 
-官方比赛提交文件需要转换为：
+CRAFT 入口会直接生成：
 
 ```text
-dataset1_result.csv
-dataset2_result.csv
+data/{dataset}/{dataset}_result.csv
+```
+
+比赛提交文件需要整理为：
+
+```text
 result.zip
+├── dataset1_result.csv
+└── dataset2_result.csv
+```
+
+打包命令：
+
+```bash
+python scripts/make_result_zip.py --input_dir results --output result.zip
 ```
 
 ## 5. 指标复现
