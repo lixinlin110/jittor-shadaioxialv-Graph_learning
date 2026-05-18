@@ -2,7 +2,7 @@
 
 本仓库面向第六届“计图”人工智能算法挑战赛赛道一：基于图学习的动态推荐任务。项目研究对象是时序图未来链接预测：给定历史交互三元组 `(source, destination, time)`，在测试阶段对每个 `source`、`time` 和 100 个候选 `destination` 进行概率打分与重排序，并生成 `dataset1_result.csv`、`dataset2_result.csv` 和 `result.zip`。
 
-本项目不是多模态 RAG 项目。仓库内容、代码和实验记录均围绕 Jittor/JittorGeometric、CRAFT baseline、动态图推荐、候选节点重排序和模型集成展开。
+仓库内容、代码和实验记录均围绕 Jittor/JittorGeometric、CRAFT baseline、动态图推荐、候选节点重排序和模型集成展开。
 
 ## 研究题目
 
