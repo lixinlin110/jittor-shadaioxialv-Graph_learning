@@ -269,8 +269,8 @@ model checkpoint 或模型参数
 
 | 成员 | 主要工作 |
 | --- | --- |
-| 李鑫霖 | 环境搭建、JittorGeometric/CRAFT baseline、模型训练与推理、历史频次和近期频次基线、时间感知重排序、模型融合实验、仓库维护和 README/Demo |
-| 涂东岳 | 文献阅读、BPR/LightGCN/JODIE/TGAT/TGN 等研究现状整理、数据字段与时间顺序复核、候选集检查、指标表格、PPT 材料、可视化说明和参考文献整理 |
+| 队员1 | 环境搭建、JittorGeometric/CRAFT baseline、模型训练与推理、历史频次和近期频次基线、时间感知重排序、模型融合实验、仓库维护和 README/Demo |
+| 队员2 | 文献阅读、BPR/LightGCN/JODIE/TGAT/TGN 等研究现状整理、数据字段与时间顺序复核、候选集检查、指标表格、PPT 材料、可视化说明和参考文献整理 |
 | 协作任务 | 结果复核、报告撰写、答辩演示、参考文献整理 |
 
 ## 参考资料
