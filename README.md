@@ -58,7 +58,7 @@ source, time, candidate_1, candidate_2, ..., candidate_100
 | History Frequency | 统计 source-destination 历史交互次数 | 传统频次基线 | 已完成 |
 | Recent Frequency | 强化最近窗口内的交互行为 | 近期行为建模 | 已完成 |
 | Time Decay | 距预测时间越近的历史交互权重越高 | 时间感知重排序 | 已完成 |
-| BPR/矩阵分解 | 基于隐式反馈的 pairwise 排序对照 | 传统推荐基线 | 计划补充 |
+| BPR/矩阵分解 | 基于隐式反馈的 pairwise 排序对照 | 传统推荐基线 | 已有轻量对照脚本 |
 | LightGCN | 静态图协同过滤推荐模型 | 图推荐对照 | 计划补充 |
 | CRAFT baseline | 使用 source 历史邻居序列和候选 destination 打分 | 官方主深度模型 | 已完成 |
 | Multi-seed CRAFT | 训练多个 CRAFT 模型获得互补预测 | 降低单次训练波动 | 已完成 |
@@ -123,6 +123,7 @@ python scripts/evaluate_predictions.py --demo
 ├── scripts/
 │   ├── evaluate_predictions.py
 │   ├── make_result_zip.py
+│   ├── run_bpr_baseline.py
 │   ├── run_baseline.sh
 │   └── run_baseline.ps1
 ├── configs/
@@ -197,6 +198,13 @@ python craft_main.py --dataset dataset1 --epochs 70 --early_stop 12 --batch_size
 python craft_main.py --dataset dataset2 --epochs 20 --early_stop 5 --batch_size 200
 ```
 
+BPR/矩阵分解轻量对照基线：
+
+```bash
+python scripts/run_bpr_baseline.py --dataset dataset1 --data_dir data --output_dir results --epochs 5 --factors 64
+python scripts/run_bpr_baseline.py --dataset dataset2 --data_dir data --output_dir results --epochs 5 --factors 64
+```
+
 ## 推理与结果生成
 
 轻量 reranker 推理示例：
@@ -225,7 +233,7 @@ python scripts/make_result_zip.py --input_dir results --output result.zip
 
 ## 实验设计与可复现性
 
-详细实验计划见 [docs/evaluation_plan.md](docs/evaluation_plan.md)。复现说明见 [docs/reproducibility.md](docs/reproducibility.md)。开题报告逐项对照见 [docs/opening_report_alignment.md](docs/opening_report_alignment.md)。
+详细实验计划见 [docs/evaluation_plan.md](docs/evaluation_plan.md)。复现说明见 [docs/reproducibility.md](docs/reproducibility.md)。快速复现指南见 [docs/quickstart_reproduce.md](docs/quickstart_reproduce.md)。开题报告逐项对照见 [docs/opening_report_alignment.md](docs/opening_report_alignment.md)。
 
 每次有效实验需要保存：
 
@@ -252,7 +260,7 @@ model checkpoint 或模型参数
 | 数据说明 | docs/data.md |
 | 实验设计 | docs/evaluation_plan.md |
 | 评价指标代码 | src/metrics.py、scripts/evaluate_predictions.py |
-| 运行说明 | README 环境配置、快速运行、推理与结果生成 |
+| 运行说明 | README 环境配置、快速运行、推理与结果生成、docs/quickstart_reproduce.md |
 | 阶段结果 | results/experiment_summary.md、docs/experiments.md |
 | 可复现性 | docs/reproducibility.md |
 | 官方 CRAFT 入口 | craft_main.py |
