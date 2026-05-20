@@ -62,9 +62,29 @@ score = 1.1273681134893112
 3. 对不同测试样本，根据候选分数差距和置信度动态调整融合强度。
 4. 对置信度较高的样本保守融合，对不确定样本增加新模型贡献。
 
-## 6. 下一步实验
+## 6. BPR/MF 对照基线
+
+为回应开题报告中“BPR/矩阵分解对照基线”的计划，仓库已补充轻量级 BPR-MF 脚本：
+
+```text
+scripts/run_bpr_baseline.py
+```
+
+该脚本使用隐式反馈 pairwise ranking 思路训练 source/item embedding，并对官方 test.csv 中的 100 个候选 destination 输出概率分数。它的主要作用是作为传统推荐方法对照，而不是替代当前最优 CRAFT/融合方案。
+
+推荐运行命令：
+
+```bash
+python scripts/run_bpr_baseline.py --dataset dataset1 --data_dir data --output_dir results --epochs 5 --factors 64
+python scripts/run_bpr_baseline.py --dataset dataset2 --data_dir data --output_dir results --epochs 5 --factors 64
+```
+
+后续需要将 BPR/MF 的本地验证指标和 A 榜反馈补入对比表。
+
+## 7. 下一步实验
 
 1. 不再大范围测试 rank-space 融合。
 2. 围绕 round19 的自适应参数做小范围搜索。
 3. 继续训练一个结构差异更大的 CRAFT 配置，而不是只微调融合比例。
 4. 将本地验证 MRR 与 A 榜反馈同步记录，避免只凭提交结果判断。
+5. 运行 BPR/MF 对照并补充 LightGCN 轻量对照，完善最终报告中的模型对比。
