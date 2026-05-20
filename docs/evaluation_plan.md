@@ -8,7 +8,7 @@
 
 1. 复现官方 JittorGeometric CRAFT baseline。
 2. 构建历史频次、近期频次、时间衰减等基础排序基线。
-3. 将 BPR/矩阵分解、LightGCN 作为后续对照基线，比较传统协同过滤、静态图推荐和动态时序图模型的差异。
+3. 补充 BPR/矩阵分解轻量对照基线，并将 LightGCN 作为后续静态图推荐对照，比较传统协同过滤、静态图推荐和动态时序图模型的差异。
 4. 比较不同训练轮数、随机种子、邻居数量、融合权重和自适应策略对 MRR 的影响。
 5. 记录本地验证指标、A 榜反馈、运行时间和结果文件路径，形成实验报告和 PPT 可用表格。
 
@@ -56,7 +56,7 @@ craft_main.py
 | History Frequency | 根据 source-destination 历史交互次数排序 | 历史频次基线 | 已完成 |
 | Recent Frequency | 根据最近窗口内交互次数排序 | 近期频次基线 | 已完成 |
 | Time Decay | 对越近的历史交互赋予越高权重 | 时间感知重排序 | 已完成 |
-| BPR/MF | 基于隐式反馈的 pairwise 排序或矩阵分解 | 传统推荐对照 | 计划补充 |
+| BPR/MF | 基于隐式反馈的 pairwise 排序或矩阵分解 | 传统推荐对照 | 已有轻量脚本 |
 | LightGCN | 静态图协同过滤推荐模型 | 图推荐对照 | 计划补充 |
 | Official CRAFT | 官方 JittorGeometric baseline | 主要深度模型 | 已完成 |
 | CRAFT Tuned | 调整 epochs、early_stop、batch_size、num_neighbors | 深度模型调参 | 已完成 |
@@ -85,6 +85,13 @@ BPR/MF
 LightGCN
 CRAFT vs BPR/MF vs LightGCN
 CRAFT + 重排序 vs CRAFT 原始输出
+```
+
+BPR/MF 对照实验入口：
+
+```bash
+python scripts/run_bpr_baseline.py --dataset dataset1 --data_dir data --output_dir results --epochs 5 --factors 64
+python scripts/run_bpr_baseline.py --dataset dataset2 --data_dir data --output_dir results --epochs 5 --factors 64
 ```
 
 每个实验至少记录：
